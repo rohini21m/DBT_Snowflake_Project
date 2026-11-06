@@ -1,0 +1,32 @@
+# profile determines the execution and relation target and how the transformations must be done!
+company_info:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      database: company_info
+      warehouse: COMPUTE_WH
+      schema: SEEDS
+      role: ACCOUNTADMIN
+      threads: 4
+
+      #in enterprise scale projects ypu may have more targets like qa, prod 
+#company_info:
+# target: qa
+#  outputs:
+#    dev:
+#      type: snowflake
+#      role: ACCOUNTADMIN
+#      database: company_info
+#      schema: COMMON
+ #     threads: 4 
+#company_info:
+#  target: prod
+#  outputs:
+#    dev:
+#      type: snowflake
+#      role: ACCOUNTADMIN
+#      warehouse: COMPUTE_WH
+#     database: company_info
+#      schema: COMMON
+#      threads: 4 

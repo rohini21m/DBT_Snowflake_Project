@@ -1,0 +1,49 @@
+# the source.ml file in staging folder defines how the dbt project must consume the data! Sources consist upstream dat athat dbt will consume to tarnsform .
+# seeds are great foro relatevely smaller projects but they dont replace file ingestion process
+version: 2  
+sources: 
+   - name: raw
+     database: company_info 
+     schema: raw
+     tables: 
+       - name: employees
+         description : "Raw employee master data with personal info, department assignment, and hire details."
+       - name: departments
+         description: "Raw department reference data with country-specific department names."
+       - name: leave_events
+         description: "Raw leave transaction events with country-specific leave codes."
+
+models:
+  - name: stg_employees
+    description: "Staged employee table with data. mimimal transformations over raw employees tables."
+    columns: 
+       - name: employee_id
+         description: "Primary Key, Unique Idenitifier for each employee."  
+         tests: 
+           - unique
+           - not null
+           
+  - name: stg_departments
+    description: "Staged department data — minimal transformation over the raw departments table."
+    columns:
+        - name: department_id
+          description: "Unique identifier for each country-specific department."
+          tests: 
+             - unique
+             - not null
+
+  - name: stg_leave_events
+    description: "Staged leave events — minimal transformation over the raw leave transactions."
+    columns:
+      - name: leave_id
+        description: "Unique identifier for each leave transaction."
+        tests:
+           - unique
+           - not null 
+           
+        
+        
+          
+
+     
+ 

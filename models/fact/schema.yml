@@ -1,0 +1,41 @@
+# here we define teste for our gold lsyer /marts datasets to validate the data 
+version: 2 
+models: 
+  - name: dim_employee
+    description : 'this is a primary key for the dim_employee table'
+    columns:
+      - name: employee_id
+        tests: 
+        - unique
+        - not null
+  - name: dim_departments
+    description: 'this is primary key to dim_departments table, used as the foreign key to employee table '
+    columns:
+      - name: department_id
+        tests:
+        - unique 
+        - not null 
+  - name: fact_leaves
+    description: 'this is primary key to fact_leaves table, used as the foreign key to employee table '
+    columns:
+      - name: leave_id
+        tests:
+        - unique 
+        - not null 
+      - name: employee_id                                        
+        description: 'Foreign key linking the leave instance back to the employee.'
+        tests:
+          - not null
+          - relationships:
+              to: ref('dim_employee')
+              field: employee_id
+  
+# last test meaning : every leve id belongs to real employee 
+#bckend sql query :select employee_id 
+               #   from dim_employee
+               #   where employee_id not in (select employee_id from dim_employees)
+
+#You do not choose department_id in the fact_leaves table because doing so would violate a fundamental rule of clean data warehousing: avoiding redundant links (or "snowflaking").
+#In a clean Star Schema design:
+# fact_leaves connects to dim_employee (via employee_id).
+# dim_employee connects to dim_departments (via department_id).
